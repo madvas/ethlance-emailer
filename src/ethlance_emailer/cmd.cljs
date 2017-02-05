@@ -169,7 +169,6 @@
                                    "testname"
                                    "testbutotn"
                                    "http://ethlance.com")
-
   (ethlance-db/get-user 1 instances)
   (ethlance-db/get-entities [1] [:user/name :user/email] (:ethlance-db instances)))
 
