@@ -172,18 +172,14 @@
   (ethlance-db/get-user 1 instances)
   (ethlance-db/get-entities [1] [:user/name :user/email] (:ethlance-db instances)))
 
-(defn wait []
-  (js/setTimeout wait 10000))
-
 (defn -main [& _]
-  ;(setup-listener :ethlance-invoice :on-invoice-added on-invoice-added)
-  ;(setup-listener :ethlance-invoice :on-invoice-paid on-invoice-paid)
-  ;(setup-listener :ethlance-invoice :on-invoice-cancelled on-invoice-cancelled)
-  ;(setup-listener :ethlance-contract :on-job-proposal-added on-job-proposal-added)
-  ;(setup-listener :ethlance-contract :on-job-contract-added on-job-contract-added)
-  ;(setup-listener :ethlance-contract :on-job-contract-feedback-added on-job-contract-feedback-added)
-  ;(setup-listener :ethlance-contract :on-job-invitation-added on-job-invitation-added)
-  (.log js/console "Listeners has been setup")
-  (wait))
+  (setup-listener :ethlance-invoice :on-invoice-added on-invoice-added)
+  (setup-listener :ethlance-invoice :on-invoice-paid on-invoice-paid)
+  (setup-listener :ethlance-invoice :on-invoice-cancelled on-invoice-cancelled)
+  (setup-listener :ethlance-contract :on-job-proposal-added on-job-proposal-added)
+  (setup-listener :ethlance-contract :on-job-contract-added on-job-contract-added)
+  (setup-listener :ethlance-contract :on-job-contract-feedback-added on-job-contract-feedback-added)
+  (setup-listener :ethlance-contract :on-job-invitation-added on-job-invitation-added)
+  (.log js/console "Listeners has been setup"))
 
 (set! *main-cli-fn* -main)
