@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "App listens to [Ethlance](http://ethlance.com) events on public Ethereum blockchain and sends notification emails to users",
   "dependencies": {
-    "ws": "^2.0.1"
+    "ws": "^2.0.1",
+    "source-map-support": "0.4.0",
+    "web3": "0.18.2",
+    "solidity-sha3": "0.4.1",
+    "sendgrid": "4.7.1"
   },
   "devDependencies": {},
   "scripts": {
