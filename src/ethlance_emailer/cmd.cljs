@@ -180,6 +180,6 @@
   (setup-listener :ethlance-contract :on-job-contract-added on-job-contract-added)
   (setup-listener :ethlance-contract :on-job-contract-feedback-added on-job-contract-feedback-added)
   (setup-listener :ethlance-contract :on-job-invitation-added on-job-invitation-added)
-  (.log js/console "Listeners has been setup"))
+  (.log js/console "Listeners have been setup"))
 
 (set! *main-cli-fn* -main)
