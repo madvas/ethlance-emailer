@@ -12,14 +12,17 @@
 
 (aget Sendgrid "Email")
 
-(defn api [request to]
+(defn api [request to email-type]
   (u/safe-js-apply sendgrid
                    "API"
                    [request (fn [error response]
                               (if error
                                 (.error js/console error)
-                                (.log js/console to (-> (js->clj response :keywordize-keys true)
-                                                      (get-in [:headers :date])))))]))
+                                (.log js/console
+                                      to
+                                      (-> (js->clj response :keywordize-keys true)
+                                        (get-in [:headers :date]))
+                                      (name email-type))))]))
 
 (defn set-template-id! [mail id]
   (u/safe-js-apply mail "setTemplateId" [id]))
@@ -34,9 +37,9 @@
 
 
 (defn send-notification-mail
-  ([to subject body receiver-name button-text button-href]
-   (send-notification-mail ["Ethlance" "noreply@ethlance.com"] to subject body receiver-name button-text button-href))
-  ([from to subject body receiver-name button-text button-href]
+  ([to subject body receiver-name button-text button-href email-type]
+   (send-notification-mail ["Ethlance" "noreply@ethlance.com"] to subject body receiver-name button-text button-href email-type))
+  ([from to subject body receiver-name button-text button-href email-type]
    (when (seq to)
      (let [from-email (new Email (second from) (first from))
            to-email (new Email to)
@@ -48,4 +51,4 @@
        (set-template-id! mail "ba84a298-b36e-4c0a-bf65-fe6c496d4f5c")
        (-> mail
          empty-request
-         (api to))))))
+         (api to email-type))))))

@@ -61,7 +61,8 @@
                                      body
                                      (:user/name employer)
                                      "Open Invoice"
-                                     (u/full-path-for :invoice/detail :invoice/id invoice-id))))
+                                     (u/full-path-for :invoice/detail :invoice/id invoice-id)
+                                     :on-invoice-added)))
 
 (defn on-invoice-paid [{:keys [:invoice-id :employer-id :freelancer-id]}]
   (let [invoice-id (u/big-num->num invoice-id)
@@ -74,7 +75,8 @@
                                      body
                                      (:user/name freelancer)
                                      "Open Invoice"
-                                     (u/full-path-for :invoice/detail :invoice/id invoice-id))))
+                                     (u/full-path-for :invoice/detail :invoice/id invoice-id)
+                                     :on-invoice-paid)))
 
 (defn on-invoice-cancelled [{:keys [:invoice-id :employer-id :freelancer-id]}]
   (let [invoice-id (u/big-num->num invoice-id)
@@ -87,7 +89,8 @@
                                      body
                                      (:user/name employer)
                                      "Open Invoice"
-                                     (u/full-path-for :invoice/detail :invoice/id invoice-id))))
+                                     (u/full-path-for :invoice/detail :invoice/id invoice-id)
+                                     :on-invoice-cancelled)))
 
 (defn on-job-proposal-added [{:keys [:contract-id :employer-id :freelancer-id] :as args}]
   (let [contract-id (u/big-num->num contract-id)
@@ -102,7 +105,8 @@
                                      body
                                      (:user/name employer)
                                      "Open Proposal"
-                                     (u/full-path-for :contract/detail :contract/id contract-id))))
+                                     (u/full-path-for :contract/detail :contract/id contract-id)
+                                     :on-job-proposal-added)))
 
 (defn on-job-contract-added [{:keys [:contract-id :employer-id :freelancer-id]}]
   (let [contract-id (u/big-num->num contract-id)
@@ -116,7 +120,8 @@
                                      body
                                      (:user/name freelancer)
                                      "Open Contract"
-                                     (u/full-path-for :contract/detail :contract/id contract-id))))
+                                     (u/full-path-for :contract/detail :contract/id contract-id)
+                                     :on-job-contract-added)))
 
 (defn on-job-contract-feedback-added [{:keys [:contract-id :receiver-id :sender-id :is-sender-freelancer]}]
   (let [contract-id (u/big-num->num contract-id)
@@ -137,7 +142,8 @@
                                      body
                                      (:user/name receiver)
                                      "Open Contract"
-                                     (u/full-path-for :contract/detail :contract/id contract-id))))
+                                     (u/full-path-for :contract/detail :contract/id contract-id)
+                                     :on-job-contract-feedback-added)))
 
 (defn on-job-invitation-added [{:keys [:contract-id :freelancer-id]}]
   (let [contract-id (u/big-num->num contract-id)
@@ -151,7 +157,8 @@
                                      body
                                      (:user/name freelancer)
                                      "Open Job"
-                                     (u/full-path-for :job/detail :job/id job-id))))
+                                     (u/full-path-for :job/detail :job/id job-id)
+                                     :on-job-invitation-added)))
 
 (comment
   (type Web3)
@@ -168,7 +175,8 @@
                                    "asdnaskjdnakjsdnka</br></br>asjdknakjsdnajksd"
                                    "testname"
                                    "testbutotn"
-                                   "http://ethlance.com")
+                                   "http://ethlance.com"
+                                   :test-email)
   (ethlance-db/get-user 1 instances)
   (ethlance-db/get-entities [1] [:user/name :user/email] (:ethlance-db instances)))
 
