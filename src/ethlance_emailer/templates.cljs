@@ -46,6 +46,16 @@
     (:job/title job)
     (:contract/description contract)))
 
+(defn on-job-contract-cancelled [job contract freelancer]
+  (gstring/format
+    "%s just cancelled contract for your job <i>%s</i>.
+    <div style='margin-bottom: 20px'></div>
+    <div>Message from freelancer:</div>
+    <div>%s</div>"
+    (:user/name freelancer)
+    (:job/title job)
+    (:contract/cancel-description contract)))
+
 
 (defn on-job-contract-feedback-added [rating feedback sender]
   (gstring/format
