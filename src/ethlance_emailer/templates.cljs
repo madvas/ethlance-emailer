@@ -10,7 +10,7 @@
     <div>Message from %s:</div>
     <div>%s</div>"
     (:user/name freelancer)
-    (u/format-currency (:invoice/amount invoice))
+    (u/format-currency (:invoice/amount invoice) 0 {:full-length? true})
     (:user/name freelancer)
     (:invoice/description invoice)))
 
@@ -18,13 +18,13 @@
   (gstring/format
     "Your invoice was just paid by your employer %s. The amount is <b>%s</b>."
     (:user/name employer)
-    (u/format-currency (:invoice/amount invoice))))
+    (u/format-currency (:invoice/amount invoice) 0 {:full-length? true})))
 
 (defn on-invoice-cancelled [invoice freelancer]
   (gstring/format
     "Invoice your received before was just cancelled by %s. The amount was <b>%s</b>."
     (:user/name freelancer)
-    (u/format-currency (:invoice/amount invoice))))
+    (u/format-currency (:invoice/amount invoice) 0 {:full-length? true})))
 
 (defn on-job-proposal-added [job contract freelancer]
   (gstring/format
@@ -34,7 +34,8 @@
     <div>%s</div>"
     (:user/name freelancer)
     (:job/title job)
-    (u/format-currency (:proposal/rate contract))
+    (u/format-currency (:proposal/rate contract) (:job/reference-currency job) {:full-length? true
+                                                                                :display-code? true})
     (:proposal/description contract)))
 
 (defn on-job-contract-added [job contract]

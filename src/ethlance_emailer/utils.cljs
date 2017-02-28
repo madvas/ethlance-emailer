@@ -3,8 +3,9 @@
     [bidi.bidi :as bidi]
     [camel-snake-kebab.core :as cs :include-macros true]
     [camel-snake-kebab.extras :refer [transform-keys]]
-    [ethlance-emailer.routes :refer [routes]]
     [clojure.string :as string]
+    [ethlance-emailer.constants :as constants]
+    [ethlance-emailer.routes :refer [routes]]
     [goog.string :as gstring]))
 
 (def SoliditySha3 (aget (js/require "solidity-sha3") "default"))
@@ -129,3 +130,41 @@
 
 (defn rating->star [rating]
   (/ (or rating 0) 20))
+
+(defn replace-comma [x]
+  (string/replace x \, \.))
+
+(defn parse-float [number]
+  (if (string? number)
+    (js/parseFloat (replace-comma number))
+    number))
+
+(defn to-locale-string [x max-fraction-digits]
+  (let [parsed-x (cond
+                   (string? x) (parse-float x)
+                   (nil? x) ""
+                   :else x)]
+    (if-not (js/isNaN parsed-x)
+      (.toLocaleString parsed-x js/undefined #js {:maximumFractionDigits max-fraction-digits})
+      x)))
+
+(defn with-currency-symbol [value currency]
+  (case currency
+    1 (str (constants/currencies 1) value)
+    (str value (constants/currencies currency))))
+
+(defn number-fraction-part [x]
+  (let [frac (second (string/split (str x) #"\."))]
+    (if frac
+      (str "." frac)
+      "")))
+
+(defn format-currency [value currency & [{:keys [:full-length? :display-code?]}]]
+  (let [value (-> (or value 0)
+                big-num->num)
+        value (if full-length?
+                (str (to-locale-string (js/parseInt value) 0) (number-fraction-part value))
+                (to-locale-string value (if (= currency 0) 3 2)))]
+    (if display-code?
+      (str value " " (name (constants/currency-id->code currency)))
+      (with-currency-symbol value currency))))

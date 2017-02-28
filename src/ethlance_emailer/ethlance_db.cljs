@@ -8,6 +8,7 @@
 (s/def :user/email string?)
 (s/def :user/name string?)
 (s/def :job/title string?)
+(s/def :job/reference-currency u/uint8?)
 (s/def :invitation/description string?)
 (s/def :proposal/description string?)
 (s/def :proposal/rate u/big-num?)
@@ -100,7 +101,7 @@
   (u/map-val (get-entities [user-id] [:user/name :user/email] ethlance-db)))
 
 (defn get-job [job-id {:keys [:ethlance-db]}]
-  (u/map-val (get-entities [job-id] [:job/title] ethlance-db)))
+  (u/map-val (get-entities [job-id] [:job/title :job/reference-currency] ethlance-db)))
 
 (defn get-invoice [invoice-id {:keys [:ethlance-db]} & [fields]]
   (-> (u/map-val (get-entities [invoice-id] (or fields
