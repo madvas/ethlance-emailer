@@ -176,6 +176,15 @@
                                      (u/full-path-for :job/detail :job/id job-id)
                                      :on-job-invitation-added)))
 
+(defn on-job-added [{:keys [:job-id]}]
+  (.log js/console "Job added" job-id))
+
+(defn on-freelancer-added [{:keys [:user-id]}]
+  (.log js/console "Freelancer added" user-id))
+
+(defn on-employer-added [{:keys [:user-id]}]
+  (.log js/console "Employer added" user-id))
+
 (comment
   (type Web3)
   (do
@@ -186,7 +195,10 @@
     (setup-listener :ethlance-contract :on-job-contract-added on-job-contract-added)
     (setup-listener :ethlance-contract :on-job-contract-cancelled on-job-contract-cancelled)
     (setup-listener :ethlance-contract :on-job-contract-feedback-added on-job-contract-feedback-added)
-    (setup-listener :ethlance-contract :on-job-invitation-added on-job-invitation-added))
+    (setup-listener :ethlance-contract :on-job-invitation-added on-job-invitation-added)
+    (setup-listener :ethlance-job :on-job-added on-job-added)
+    (setup-listener :ethlance-user :on-freelancer-added on-freelancer-added)
+    (setup-listener :ethlance-user :on-employer-added on-employer-added))
   (sendgrid/send-notification-mail "matus.lestan@ethlance.com"
                                    "test"
                                    "asdnaskjdnakjsdnka</br></br>asjdknakjsdnajksd"
@@ -206,6 +218,9 @@
   (setup-listener :ethlance-contract :on-job-contract-cancelled on-job-contract-cancelled)
   (setup-listener :ethlance-contract :on-job-contract-feedback-added on-job-contract-feedback-added)
   (setup-listener :ethlance-contract :on-job-invitation-added on-job-invitation-added)
+  (setup-listener :ethlance-job :on-job-added on-job-added)
+  (setup-listener :ethlance-user :on-freelancer-added on-freelancer-added)
+  (setup-listener :ethlance-user :on-employer-added on-employer-added)
   (.log js/console "Listeners have been setup" (aget nodejs/process "env" "WEB3_URL")))
 
 (set! *main-cli-fn* -main)
