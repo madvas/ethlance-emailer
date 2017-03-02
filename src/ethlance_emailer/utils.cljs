@@ -125,9 +125,6 @@
 (defn full-path-for [& args]
   (str "http://ethlance.com/" (apply path-for args)))
 
-(defn format-currency [x]
-  (gstring/format "%.3fΞ" x))
-
 (defn rating->star [rating]
   (/ (or rating 0) 20))
 

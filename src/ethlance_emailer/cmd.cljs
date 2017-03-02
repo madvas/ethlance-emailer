@@ -177,13 +177,13 @@
                                      :on-job-invitation-added)))
 
 (defn on-job-added [{:keys [:job-id]}]
-  (.log js/console "Job added" job-id))
+  (.log js/console "Job added" (str job-id)))
 
 (defn on-freelancer-added [{:keys [:user-id]}]
-  (.log js/console "Freelancer added" user-id))
+  (.log js/console "Freelancer added" (str user-id)))
 
 (defn on-employer-added [{:keys [:user-id]}]
-  (.log js/console "Employer added" user-id))
+  (.log js/console "Employer added" (str user-id)))
 
 (comment
   (type Web3)
