@@ -230,6 +230,7 @@
         job-skills (:job/skills (ethlance-db/get-job-skills job-id (:job/skills-count job) instances))]
     (loop [offset 0]
       (let [user-ids (ethlance-db/search-freelancers-by-any-of-skills job-skills 1 offset users-job-recommendation-limit instances)]
+        (u/log! "on-job-added" job-id "freelancers" (count user-ids))
         (doseq [user-id user-ids]
           (let [user (ethlance-db/get-user user-id instances)
                 body (templates/on-job-added [job])]
