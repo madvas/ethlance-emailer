@@ -26,3 +26,9 @@
    4 :RUB
    5 :CNY
    6 :JPY})
+
+(def job-recommendations-cron
+  {2 "0 4,16 * * *"
+   3 "0 12 * * *"
+   4 "0 14 */3 * *"
+   5 "0 13 * * 0"})

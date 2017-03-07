@@ -11,3 +11,7 @@ var sendgrid = {
     },
     API: function() {}
 }
+
+var schedule = {
+    scheduleJob : function() {}
+}

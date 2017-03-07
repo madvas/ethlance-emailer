@@ -165,3 +165,31 @@
     (if display-code?
       (str value " " (name (constants/currency-id->code currency)))
       (with-currency-symbol value currency))))
+
+(defn truncate
+  "Truncate a string with suffix (ellipsis by default) if it is
+   longer than specified length."
+  ([string length]
+   (truncate string length "..."))
+  ([string length suffix]
+   (let [string-len (count string)
+         suffix-len (count suffix)]
+     (if (<= string-len length)
+       string
+       (str (subs string 0 (- length suffix-len)) suffix)))))
+
+(defn days-ago-from-now [days]
+  (let [d (new js/Date)]
+    (.setDate d (- (.getDate d) days))
+    d))
+
+(defn hours-ago-from-now [hours]
+  (let [d (new js/Date)]
+    (.setHours d (- (.getHours d) hours))
+    d))
+
+(defn log! [& args]
+  (apply js/console.log (concat args [(str (new js/Date))])))
+
+(defn get-time-without-milis [date]
+  (js/Math.floor (/ (.getTime date) 1000)))

@@ -78,3 +78,16 @@
     (:job/title job)
     (:invitation/description contract)))
 
+(defn job-recommendations [intro-text jobs]
+  (-> (gstring/format "<div>%s</div>" intro-text)
+    (str "<ul class=\"link-list\">")
+    (str (reduce (fn [acc {:keys [:job/title :job/description :job/id]}]
+                   (str acc
+                        (gstring/format
+                          "<li><a href=\"http://ethlance.com/#/job/%s\">%s</a><div>%s</div></li>"
+                          id title (u/truncate description 150)))) "" jobs))
+    (str "</ul>")))
+
+(def on-job-added (partial job-recommendations "We just got a new job matching your skills!"))
+(def on-job-recommendations-interval (partial job-recommendations "We have some new jobs matching your skills!"))
+

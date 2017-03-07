@@ -3,16 +3,17 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[camel-snake-kebab "0.4.0"]
+  :dependencies [[bidi "2.0.14"]
+                 [camel-snake-kebab "0.4.0"]
                  [cljs-web3 "0.18.2-0"]
+                 [com.andrewmcveigh/cljs-time "0.4.0"]
                  [com.cemerick/piggieback "0.2.1"]
                  [figwheel-sidecar "0.5.9"]
                  [medley "0.8.3"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.456"]
                  [org.clojure/tools.nrepl "0.2.10"]
-                 [print-foo-cljs "2.0.3"]
-                 [bidi "2.0.14"]]
+                 [print-foo-cljs "2.0.3"]]
   :plugins [[lein-npm "0.6.2"]
             [lein-cljsbuild "1.1.5"]
             [lein-figwheel "0.5.9"]]
@@ -20,7 +21,8 @@
                        [web3 "0.18.2"]
                        [ws "2.0.1"]
                        [solidity-sha3 "0.4.1"]
-                       [sendgrid "4.7.1"]]}
+                       [sendgrid "4.7.1"]
+                       [node-schedule "1.2.0"]]}
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
   :source-paths ["src" "target/classes" "dev"]
   :cljsbuild {:builds
