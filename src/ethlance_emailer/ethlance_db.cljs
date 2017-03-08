@@ -151,11 +151,11 @@
 (defn get-job-skills [job-id skill-count {:keys [:ethlance-db]}]
   (u/map-val (get-entities-field-items {job-id skill-count} :job/skills ethlance-db)))
 
-(defn search-freelancers-by-any-of-skills [skills job-recommendations offset limit {:keys [:ethlance-search]}]
+(defn search-freelancers-by-any-of-skills [category skills job-recommendations offset limit {:keys [:ethlance-search]}]
   (let [rates (take (count constants/currencies) (repeat 0))]
     (-> (web3/contract-call ethlance-search
                             :search-freelancers
-                            0 [] skills 0 0 rates rates [0 0 0 job-recommendations offset limit 0])
+                            category [] skills 0 0 rates rates [0 0 0 job-recommendations offset limit 0])
       u/big-nums->nums)))
 
 (defn search-jobs [min-created-on offset limit {:keys [:ethlance-search]}]

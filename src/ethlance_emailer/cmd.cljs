@@ -225,12 +225,17 @@
 (def users-job-recommendation-limit 200)
 
 (defn on-job-added [{:keys [:job-id]}]
-  (let [job (-> (ethlance-db/get-job job-id instances [:job/skills-count :job/title :job/description])
+  (let [job (-> (ethlance-db/get-job job-id instances [:job/skills-count :job/title :job/description :job/category])
               (assoc :job/id job-id))
         job-skills (:job/skills (ethlance-db/get-job-skills job-id (:job/skills-count job) instances))]
     (loop [offset 0]
-      (let [user-ids (ethlance-db/search-freelancers-by-any-of-skills job-skills 1 offset users-job-recommendation-limit instances)]
-        (u/log! "on-job-added" job-id "freelancers" (count user-ids))
+      (let [user-ids (ethlance-db/search-freelancers-by-any-of-skills (:job/category job)
+                                                                      job-skills
+                                                                      1
+                                                                      offset
+                                                                      users-job-recommendation-limit
+                                                                      instances)]
+        (u/log! "on-job-added" (str job-id) "freelancers" (count user-ids))
         (doseq [user-id user-ids]
           (let [user (ethlance-db/get-user user-id instances)
                 body (templates/on-job-added [job])]
@@ -250,9 +255,10 @@
                (reduce (fn [acc job-id]
                          (let [job (ethlance-db/get-job job-id
                                                         instances
-                                                        [:job/skills-count :job/title :job/description])
+                                                        [:job/skills-count :job/title :job/description :job/category])
                                job-skills (ethlance-db/get-job-skills job-id (:job/skills-count job) instances)
-                               freelancers (ethlance-db/search-freelancers-by-any-of-skills (:job/skills job-skills)
+                               freelancers (ethlance-db/search-freelancers-by-any-of-skills (:job/category job)
+                                                                                            (:job/skills job-skills)
                                                                                             job-recommendations
                                                                                             0
                                                                                             10000
