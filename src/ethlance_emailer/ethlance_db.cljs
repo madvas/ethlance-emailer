@@ -10,6 +10,7 @@
 (s/def :user/name string?)
 (s/def :job/title string?)
 (s/def :job/reference-currency u/uint8?)
+(s/def :job/category u/uint8?)
 (s/def :invitation/description string?)
 (s/def :proposal/description string?)
 (s/def :proposal/rate u/big-num?)
