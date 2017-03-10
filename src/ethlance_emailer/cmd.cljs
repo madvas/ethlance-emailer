@@ -226,8 +226,9 @@
 (defn on-job-contract-message-added [{:keys [:message-id :contract-id :sender-id :receiver-id]}]
   (let [message (ethlance-db/get-message (u/big-num->num message-id) instances)
         sender (ethlance-db/get-user (u/big-num->num sender-id) instances)
-        receiver (ethlance-db/get-user (u/big-num->num receiver-id) instances [:user.notif/disabled-all?
-                                                                               :user.notif/disabled-on-message-added?])
+        receiver-id (u/big-num->num receiver-id)
+        receiver (ethlance-db/get-user receiver-id instances [:user.notif/disabled-all?
+                                                              :user.notif/disabled-on-message-added?])
         body (templates/on-job-contract-message-added message sender)]
     (when (and (not (:user.notif/disabled-all? receiver))
                (not (:user.notif/disabled-on-message-added? receiver)))
