@@ -34,7 +34,13 @@
 (s/def :user.notif/disabled-on-job-contract-feedback-added? boolean?)
 (s/def :user.notif/disabled-on-job-invitation-added? boolean?)
 (s/def :user.notif/disabled-on-job-proposal-added? boolean?)
+(s/def :user.notif/disabled-on-message-added? boolean?)
 (s/def :user.notif/job-recommendations u/uint8?)
+(s/def :message/text string?)
+(s/def :message/receiver u/uint?)
+(s/def :message/sender u/uint?)
+(s/def :message/contract u/uint?)
+(s/def :message/contract-status u/uint8?)
 
 (defn remove-uint-coll-fields [fields]
   (remove #(= (s/form %) 'ethlance-emailer.utils/uint-coll?) fields))
@@ -151,6 +157,9 @@
 
 (defn get-job-skills [job-id skill-count {:keys [:ethlance-db]}]
   (u/map-val (get-entities-field-items {job-id skill-count} :job/skills ethlance-db)))
+
+(defn get-message [message-id {:keys [:ethlance-db]} & [fields]]
+  (u/map-val (get-entities [message-id] (or fields [:message/text]) ethlance-db)))
 
 (defn search-freelancers-by-any-of-skills [category skills job-recommendations offset limit {:keys [:ethlance-search]}]
   (let [rates (take (count constants/currencies) (repeat 0))]

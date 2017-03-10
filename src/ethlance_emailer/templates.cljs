@@ -78,6 +78,14 @@
     (:job/title job)
     (:invitation/description contract)))
 
+(defn on-job-contract-message-added [message sender]
+  (gstring/format
+    "You've just received message from %s:
+    <div style='margin-bottom: 20px'></div>
+    <div>%s</div>"
+    (:user/name sender)
+    (:message/text message)))
+
 (defn job-recommendations [intro-text jobs]
   (-> (gstring/format "<div>%s</div>" intro-text)
     (str "<ul class=\"link-list\">")
