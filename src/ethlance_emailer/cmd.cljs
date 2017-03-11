@@ -26,7 +26,7 @@
    :ethlance-contract {:name "EthlanceContract" :setter? true :address "0x9d0aba974c3158cc9fd9a530acd83a3ff7c14964"}
    :ethlance-job {:name "EthlanceJob" :setter? true :address "0x3d3bb143a6ee72deb9646c14b403ccc3f6e3c2c8"}
    :ethlance-invoice {:name "EthlanceInvoice" :setter? true :address "0x917db76c206f744274375428e261fa6521ac1b05"}
-   :ethlance-search {:name "EthlanceSearch" :address "0x8f61f16b154d676b05ac03ac1659df3c1e1b7916"}
+   :ethlance-search {:name "EthlanceSearch" :address "0xfc2bf51c1f14eaad6a0d2f3cb132f57caa1a4733"}
    :ethlance-message {:name "EthlanceMessage" :address "0x51075b15962e4f23944cca4628b3e148f9b617b3"}})
 
 (def abis
@@ -258,7 +258,7 @@
         (doseq [user-id user-ids]
           (let [user (ethlance-db/get-user user-id instances)
                 body (templates/on-job-added [job])]
-            #_ (sendgrid/send-notification-mail user-id
+            (sendgrid/send-notification-mail user-id
                                              (:user/email user)
                                              "We have a new job for you!"
                                              body
@@ -348,7 +348,7 @@
                                    "testbutotn"
                                    "http://ethlance.com"
                                    :test-email)
-  (on-job-added {:job-id 10})
+  (on-job-added {:job-id 46})
   (set! sched-job (.scheduleJob schedule "* * * * *" (fn []
                                                        (println "test"))))
   (.cancel sched-job)
