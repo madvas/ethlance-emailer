@@ -258,7 +258,7 @@
         (doseq [user-id user-ids]
           (let [user (ethlance-db/get-user user-id instances)
                 body (templates/on-job-added [job])]
-            (sendgrid/send-notification-mail user-id
+            #_ (sendgrid/send-notification-mail user-id
                                              (:user/email user)
                                              "We have a new job for you!"
                                              body
