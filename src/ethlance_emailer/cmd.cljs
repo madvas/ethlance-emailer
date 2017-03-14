@@ -54,7 +54,9 @@
                       "latest"
                       (fn [err res]
                         (if err
-                          (println "ERROR: " err)
+                          (do
+                            (println "ERROR: " err)
+                            (.exit js/process 1))
                           (callback (:args res))))))
 
 (defn on-invoice-added [{:keys [:invoice-id :employer-id :freelancer-id]}]
