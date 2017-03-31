@@ -21,7 +21,7 @@
 (def web3 (web3/create-web3 Web3 (or (aget nodejs/process "env" "WEB3_URL") "http://localhost:8549")))
 
 (def contracts
-  {:ethlance-db {:name "EthlanceDB" :address "0xe39c3eea17799043896c432cd185c86dcdd82b31"}
+  {:ethlance-db {:name "EthlanceDB" :address "0x5371a8d8d8a86c76de935821ad1a3e9b908cfced"}
    :ethlance-user {:name "EthlanceUser" :setter? true :address "0x419319579f825b52a44d9e2cf147fd5fe5217f3a"}
    :ethlance-contract {:name "EthlanceContract" :setter? true :address "0x9d0aba974c3158cc9fd9a530acd83a3ff7c14964"}
    :ethlance-job {:name "EthlanceJob" :setter? true :address "0x9461a0fbe1b815a06a11161cc2e5ae9e7d2bac91"}
