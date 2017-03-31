@@ -9,21 +9,21 @@
     <div style='margin-bottom: 20px'></div>
     <div>Message from %s:</div>
     <div>%s</div>"
-    (:user/name freelancer)
+    (gstring/htmlEscape (:user/name freelancer))
     (u/format-currency (:invoice/amount invoice) 0 {:full-length? true})
-    (:user/name freelancer)
-    (:invoice/description invoice)))
+    (gstring/htmlEscape (:user/name freelancer))
+    (gstring/htmlEscape (:invoice/description invoice))))
 
 (defn on-invoice-paid [invoice employer]
   (gstring/format
     "Your invoice was just paid by your employer %s. The amount is <b>%s</b>."
-    (:user/name employer)
+    (gstring/htmlEscape (:user/name employer))
     (u/format-currency (:invoice/amount invoice) 0 {:full-length? true})))
 
 (defn on-invoice-cancelled [invoice freelancer]
   (gstring/format
     "Invoice your received before was just cancelled by %s. The amount was <b>%s</b>."
-    (:user/name freelancer)
+    (gstring/htmlEscape (:user/name freelancer))
     (u/format-currency (:invoice/amount invoice) 0 {:full-length? true})))
 
 (defn on-job-proposal-added [job contract freelancer]
@@ -32,11 +32,11 @@
     <div style='margin-bottom: 20px'></div>
     <div>Proposal message:</div>
     <div>%s</div>"
-    (:user/name freelancer)
-    (:job/title job)
+    (gstring/htmlEscape (:user/name freelancer))
+    (gstring/htmlEscape (:job/title job))
     (u/format-currency (:proposal/rate contract) (:job/reference-currency job) {:full-length? true
                                                                                 :display-code? true})
-    (:proposal/description contract)))
+    (gstring/htmlEscape (:proposal/description contract))))
 
 (defn on-job-contract-added [job contract]
   (gstring/format
@@ -44,8 +44,8 @@
     <div style='margin-bottom: 20px'></div>
     <div>Message from employer:</div>
     <div>%s</div>"
-    (:job/title job)
-    (:contract/description contract)))
+    (gstring/htmlEscape (:job/title job))
+    (gstring/htmlEscape (:contract/description contract))))
 
 (defn on-job-contract-cancelled [job contract freelancer]
   (gstring/format
@@ -53,9 +53,9 @@
     <div style='margin-bottom: 20px'></div>
     <div>Message from freelancer:</div>
     <div>%s</div>"
-    (:user/name freelancer)
-    (:job/title job)
-    (:contract/cancel-description contract)))
+    (gstring/htmlEscape (:user/name freelancer))
+    (gstring/htmlEscape (:job/title job))
+    (gstring/htmlEscape (:contract/cancel-description contract))))
 
 
 (defn on-job-contract-feedback-added [rating feedback sender]
@@ -65,9 +65,9 @@
     <div>Rating: %s</div>
     <div>Feedback:</div>
     <div>%s</div>"
-    (:user/name sender)
+    (gstring/htmlEscape (:user/name sender))
     (u/rating->star rating)
-    feedback))
+    (gstring/htmlEscape feedback)))
 
 (defn on-job-invitation-added [job contract]
   (gstring/format
@@ -75,16 +75,39 @@
     <div style='margin-bottom: 20px'></div>
     <div>Invitation Message:</div>
     <div>%s</div>"
-    (:job/title job)
-    (:invitation/description contract)))
+    (gstring/htmlEscape (:job/title job))
+    (gstring/htmlEscape (:invitation/description contract))))
 
 (defn on-job-contract-message-added [message sender]
   (gstring/format
     "You've just received message from %s:
     <div style='margin-bottom: 20px'></div>
     <div>%s</div>"
-    (:user/name sender)
-    (:message/text message)))
+    (gstring/htmlEscape (:user/name sender))
+    (gstring/htmlEscape (:message/text message))))
+
+(defn on-job-sponsorship-added [job {:keys [:sponsorship/name :sponsorship/link]} amount]
+  (let [name (if (empty? name) "Anonymous" (gstring/htmlEscape name))
+        url (if (u/http-url? link)
+              (gstring/format "<a href=\"%s\" target=\"_blank\">%s</a>" (gstring/htmlEscape link) name)
+              name)]
+    (gstring/format
+      "Your job <i>%s</i> just received sponsorship from <i>%s</i> with the amount of <b>%s</b>"
+      (:job/title job)
+      url
+      amount)))
+
+(defn on-job-sponsorship-refunded [job amount]
+  (gstring/format
+    "You were refunded <b>%s</b> from your previous sponsorship to job <i>%s</i>"
+    amount
+    (gstring/htmlEscape (:job/title job))))
+
+(defn on-sponsorable-job-approved [job approver]
+  (gstring/format
+    "Your job <i>%s</i> was just approved by the address %s"
+    (gstring/htmlEscape (:job/title job))
+    approver))
 
 (defn job-recommendations [intro-text jobs]
   (-> (gstring/format "<div>%s</div>" intro-text)
@@ -93,7 +116,9 @@
                    (str acc
                         (gstring/format
                           "<li><a href=\"http://ethlance.com/#/job/%s\">%s</a><div>%s</div></li>"
-                          id title (u/truncate description 150)))) "" jobs))
+                          id
+                          (gstring/htmlEscape title)
+                          (gstring/htmlEscape (u/truncate description 150))))) "" jobs))
     (str "</ul>")))
 
 (def on-job-added (partial job-recommendations "We just got a new job matching your skills!"))
