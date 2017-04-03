@@ -51,17 +51,21 @@
                                           (js/JSON.parse (get abis contract-key))
                                           address)})))
 
+(def last-event-args (atom {}))
+
 (defn setup-listener! [contract-key fn-key callback]
   (web3/contract-call (get instances contract-key)
                       fn-key
                       {}
                       "latest"
-                      (fn [err res]
+                      (fn [err {:keys [:args] :as res}]
                         (if err
                           (do
                             (println "ERROR: " err)
                             (.exit js/process 1))
-                          (callback (:args res))))))
+                          (when-not (= (get @last-event-args fn-key) args)
+                            (swap! last-event-args assoc fn-key args)
+                            (callback args))))))
 
 (defn on-invoice-added [{:keys [:invoice-id :employer-id :freelancer-id]}]
   (let [invoice-id (u/big-num->num invoice-id)
