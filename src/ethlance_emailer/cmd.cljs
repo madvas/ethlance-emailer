@@ -63,8 +63,9 @@
                           (do
                             (println "ERROR: " err)
                             (.exit js/process 1))
-                          (when-not (= (get @last-event-args fn-key) args)
-                            (swap! last-event-args assoc fn-key args)
+                          (when-not (= (get @last-event-args fn-key)
+                                       (medley/map-vals u/big-num->num args))
+                            (swap! last-event-args assoc fn-key (medley/map-vals u/big-num->num args))
                             (callback args))))))
 
 (defn on-invoice-added [{:keys [:invoice-id :employer-id :freelancer-id]}]
