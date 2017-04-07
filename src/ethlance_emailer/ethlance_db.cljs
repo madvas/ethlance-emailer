@@ -173,20 +173,16 @@
 (defn get-sponsorship [sponsorship-id {:keys [:ethlance-db]} fields]
   (u/map-entry-val (get-entities [sponsorship-id] fields ethlance-db)))
 
-(defn get-user-ids-by-addresses [addresses {:keys [:ethlance-views]}]
-  (-> (web3/contract-call ethlance-views :get-users addresses)
-    u/big-nums->nums))
-
-(defn search-freelancers-by-any-of-skills [category skills job-recommendations offset limit {:keys [:ethlance-search]}]
+(defn search-freelancers-by-any-of-skills [category skills job-recommendations offset limit {:keys [:ethlance-search-freelancers]}]
   (let [rates (take (count constants/currencies) (repeat 0))]
-    (-> (web3/contract-call ethlance-search
+    (-> (web3/contract-call ethlance-search-freelancers
                             :search-freelancers
                             category [] skills 0 0 rates rates [0 0 0 job-recommendations offset limit 0])
       u/big-nums->nums)))
 
-(defn search-jobs [min-created-on offset limit {:keys [:ethlance-search]}]
+(defn search-jobs [min-created-on offset limit {:keys [:ethlance-search-jobs]}]
   (let [min-budgets (take (count constants/currencies) (repeat 0))]
-    (-> (web3/contract-call ethlance-search
+    (-> (web3/contract-call ethlance-search-jobs
                             :search-jobs
                             0 [] [] [] [] [] [] min-budgets [0 0 0 0 0 min-created-on offset limit])
       u/big-nums->nums)))
