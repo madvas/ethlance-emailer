@@ -26,6 +26,7 @@
 (s/def :job/skills u/uint-coll?)
 (s/def :job/skills-count u/uint?)
 (s/def :job/description string?)
+(s/def :job/invitation-only? boolean?)
 (s/def :user.notif/disabled-all? boolean?)
 (s/def :user.notif/disabled-newsletter? boolean?)
 (s/def :user.notif/disabled-on-invoice-added? boolean?)
