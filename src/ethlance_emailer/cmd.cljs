@@ -27,7 +27,7 @@
    :ethlance-job {:name "EthlanceJob" :setter? true :address "0xB9E80ce5A7CbbA0Aab685797F6585AD1f3c90028"}
    :ethlance-invoice {:name "EthlanceInvoice" :setter? true :address "0x78f1072964d7f110e06670c229794afbdce7e474"}
    :ethlance-search-freelancers {:name "EthlanceSearchFreelancers" :address "0x43386ad7af76ca5384bc06ae0c74e230f32744ee"}
-   :ethlance-search-jobs {:name "EthlanceSearchJobs" :address "0x017be8ab41ddb10ca3660f00bf4ec975a5382f04"}
+   :ethlance-search-jobs {:name "EthlanceSearchJobs" :address "0x9e2f85eea233047e527039681ad84448c8926690"}
    :ethlance-feedback {:name "EthlanceFeedback" :address "0x2249713725c8a4a070a61de0bdce6b1081014185"}
    :ethlance-message {:name "EthlanceMessage" :address "0xf94aa98bde7589719f1f08c6fb032debd0d7e9e6"}
    :ethlance-sponsor {:name "EthlanceSponsor" :setter? true :address "0xb9f7d3b60ec29bd73fd66428f140ed5b0e1ef6ec"}})
